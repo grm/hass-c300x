@@ -1,0 +1,20 @@
+{
+  "entity": {
+    "binary_sensor": {
+      "ringing": {"default": "mdi:bell-ring", "state": {"off": "mdi:bell-outline"}},
+      "call": {"default": "mdi:phone-in-talk", "state": {"off": "mdi:phone-hangup"}}
+    },
+    "button": {
+      "open_door": {"default": "mdi:door-open"},
+      "open_lock": {"default": "mdi:lock-open-variant"},
+      "stair_light": {"default": "mdi:stairs"},
+      "refresh_image": {"default": "mdi:camera-retake"}
+    },
+    "event": {
+      "door": {"default": "mdi:door"}
+    },
+    "media_player": {
+      "speaker": {"default": "mdi:bullhorn"}
+    }
+  }
+}

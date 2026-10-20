@@ -1,0 +1,173 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Compte Door Entry",
+        "description": "Connectez-vous avec le compte de l'application BTicino Door Entry. Le cloud ne sert qu'une fois, pour récupérer le mot de passe de la passerelle et un certificat SIP ; tout fonctionne ensuite en local.",
+        "data": {
+          "email": "E-mail",
+          "password": "Mot de passe",
+          "remember_password": "Mémoriser le mot de passe"
+        },
+        "data_description": {
+          "remember_password": "Conservé dans Home Assistant pour renouveler automatiquement le certificat (valable environ 2 ans) et le mot de passe de la passerelle. Sinon, il vous sera redemandé avant l'expiration."
+        }
+      },
+      "plant": {
+        "title": "Installation",
+        "data": {
+          "plant_id": "Installation"
+        }
+      },
+      "host": {
+        "title": "Adresse de la passerelle",
+        "description": "Adresse IP locale du Classe 300X (passerelle {gateway_id}). Réservez-lui une adresse fixe dans le DHCP.",
+        "data": {
+          "host": "Hôte"
+        }
+      },
+      "reauth_confirm": {
+        "title": "Reconnexion",
+        "description": "Mot de passe du compte Door Entry {email}. Un nouveau certificat sera demandé.",
+        "data": {
+          "password": "Mot de passe",
+          "remember_password": "Mémoriser le mot de passe"
+        },
+        "data_description": {
+          "remember_password": "Conservé dans Home Assistant pour renouveler automatiquement le certificat (valable environ 2 ans) et le mot de passe de la passerelle. Sinon, il vous sera redemandé avant l'expiration."
+        }
+      },
+      "reconfigure": {
+        "title": "Adresse de la passerelle",
+        "data": {
+          "host": "Hôte"
+        }
+      }
+    },
+    "error": {
+      "invalid_auth": "E-mail ou mot de passe incorrect.",
+      "cannot_connect": "Impossible de joindre le cloud BTicino.",
+      "no_plant": "Aucune installation sur ce compte.",
+      "invalid_open_password": "La passerelle a refusé le mot de passe OpenWebNet.",
+      "cannot_connect_local": "Impossible de joindre la passerelle sur le port 20000.",
+      "cannot_connect_sip": "La passerelle a refusé la connexion SIP (port 5061)."
+    },
+    "abort": {
+      "already_configured": "Cette passerelle est déjà configurée.",
+      "cloud_error": "Le cloud BTicino n'a pas renvoyé les identifiants de la passerelle.",
+      "reauth_successful": "Identifiants mis à jour.",
+      "reconfigure_successful": "Adresse mise à jour."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "data": {
+          "devaddr": "Adresse de la platine",
+          "locks": "Adresses des serrures",
+          "stair_light": "Adresse de l'éclairage d'escalier",
+          "talk_gain": "Gain du haut-parleur"
+        },
+        "data_description": {
+          "devaddr": "Platine à appeler pour la vidéo et l'audio (20 pour une seule platine).",
+          "locks": "Séparées par des virgules ; un bouton par serrure (20 = serrure de la platine principale).",
+          "stair_light": "Laisser vide si vous n'en avez pas.",
+          "talk_gain": "Amplification des messages diffusés sur le haut-parleur de la platine."
+        }
+      }
+    },
+    "error": {
+      "invalid_address": "Les adresses sont des nombres, par exemple 20 ou 21."
+    }
+  },
+  "entity": {
+    "binary_sensor": {
+      "ringing": {
+        "name": "Sonnerie"
+      },
+      "call": {
+        "name": "Appel en cours"
+      }
+    },
+    "button": {
+      "open_door": {
+        "name": "Ouvrir la porte"
+      },
+      "open_lock": {
+        "name": "Ouvrir la serrure {where}"
+      },
+      "stair_light": {
+        "name": "Éclairage d'escalier"
+      },
+      "refresh_image": {
+        "name": "Rafraîchir l'image"
+      }
+    },
+    "event": {
+      "doorbell": {
+        "name": "Sonnette",
+        "state_attributes": {
+          "event_type": {
+            "state": {
+              "ring": "Sonnerie"
+            }
+          }
+        }
+      },
+      "door": {
+        "name": "Porte",
+        "state_attributes": {
+          "event_type": {
+            "state": {
+              "opened": "Ouverte"
+            }
+          }
+        }
+      }
+    },
+    "media_player": {
+      "speaker": {
+        "name": "Haut-parleur"
+      }
+    }
+  },
+  "exceptions": {
+    "certificate_expired": {
+      "message": "Le certificat SIP a expiré, reconnectez-vous."
+    },
+    "invalid_open_password": {
+      "message": "La passerelle a refusé le mot de passe OpenWebNet."
+    },
+    "cannot_connect": {
+      "message": "Impossible de joindre la passerelle à l'adresse {host}."
+    },
+    "command_failed": {
+      "message": "La passerelle n'a pas accepté la commande : {error}"
+    },
+    "busy": {
+      "message": "La platine est occupée (quelqu'un sonne ou elle est déjà en cours d'utilisation)."
+    },
+    "no_video": {
+      "message": "Aucune image reçue de la platine."
+    },
+    "no_speex": {
+      "message": "libspeex n'est pas installé sur ce système, le haut-parleur ne peut pas fonctionner."
+    },
+    "renewal_failed": {
+      "message": "Le certificat SIP a expiré et le cloud BTicino est injoignable pour le renouveler ; nouvel essai plus tard."
+    }
+  },
+  "issues": {
+    "certificate_expiring": {
+      "title": "{title} : le certificat SIP expire le {date}",
+      "fix_flow": {
+        "step": {
+          "confirm": {
+            "title": "Renouveler le certificat SIP",
+            "description": "Le certificat qu'utilise Home Assistant pour dialoguer avec la passerelle expire le {date}. Ensuite, la porte, la caméra et le haut-parleur ne fonctionneront plus.\n\nConfirmez pour vous reconnecter à votre compte Door Entry : un nouveau certificat sera demandé. Cochez « Mémoriser le mot de passe » pour qu'il soit renouvelé automatiquement la prochaine fois."
+          }
+        }
+      }
+    }
+  }
+}

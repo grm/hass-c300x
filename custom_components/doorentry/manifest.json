@@ -1,0 +1,13 @@
+{
+  "domain": "doorentry",
+  "name": "BTicino Classe 300X",
+  "codeowners": ["@grm"],
+  "config_flow": true,
+  "dependencies": ["ffmpeg", "media_source"],
+  "documentation": "https://github.com/grm/hass-c300x",
+  "integration_type": "device",
+  "iot_class": "local_push",
+  "issue_tracker": "https://github.com/grm/hass-c300x/issues",
+  "requirements": [],
+  "version": "0.1.0"
+}

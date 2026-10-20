@@ -1,0 +1,173 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Door Entry account",
+        "description": "Sign in with the account of the BTicino Door Entry app. The cloud is only used once, to get the gateway password and a SIP certificate; everything then runs locally.",
+        "data": {
+          "email": "Email",
+          "password": "Password",
+          "remember_password": "Remember the password"
+        },
+        "data_description": {
+          "remember_password": "Stored in Home Assistant to renew the certificate (valid about 2 years) and the gateway password automatically. Otherwise you will be asked to sign in again before it expires."
+        }
+      },
+      "plant": {
+        "title": "Installation",
+        "data": {
+          "plant_id": "Installation"
+        }
+      },
+      "host": {
+        "title": "Gateway address",
+        "description": "Local IP address of the Classe 300X (gateway {gateway_id}). Give it a fixed DHCP lease.",
+        "data": {
+          "host": "Host"
+        }
+      },
+      "reauth_confirm": {
+        "title": "Sign in again",
+        "description": "Password of the Door Entry account {email}. A new certificate will be requested.",
+        "data": {
+          "password": "Password",
+          "remember_password": "Remember the password"
+        },
+        "data_description": {
+          "remember_password": "Stored in Home Assistant to renew the certificate (valid about 2 years) and the gateway password automatically. Otherwise you will be asked to sign in again before it expires."
+        }
+      },
+      "reconfigure": {
+        "title": "Gateway address",
+        "data": {
+          "host": "Host"
+        }
+      }
+    },
+    "error": {
+      "invalid_auth": "Wrong email or password.",
+      "cannot_connect": "Cannot reach the BTicino cloud.",
+      "no_plant": "No installation in this account.",
+      "invalid_open_password": "The gateway refused the OpenWebNet password.",
+      "cannot_connect_local": "Cannot reach the gateway on port 20000.",
+      "cannot_connect_sip": "The gateway refused the SIP connection (port 5061)."
+    },
+    "abort": {
+      "already_configured": "This gateway is already configured.",
+      "cloud_error": "The BTicino cloud did not return the gateway credentials.",
+      "reauth_successful": "Credentials updated.",
+      "reconfigure_successful": "Address updated."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "data": {
+          "devaddr": "Door station address",
+          "locks": "Lock addresses",
+          "stair_light": "Stair light address",
+          "talk_gain": "Speaker gain"
+        },
+        "data_description": {
+          "devaddr": "Address of the door station to call for video and audio (20 for a single door station).",
+          "locks": "Comma-separated; one button per lock (20 = lock of the main door station).",
+          "stair_light": "Leave empty if you have none.",
+          "talk_gain": "Amplification of the messages played on the door station speaker."
+        }
+      }
+    },
+    "error": {
+      "invalid_address": "Addresses are numbers, for example 20 or 21."
+    }
+  },
+  "entity": {
+    "binary_sensor": {
+      "ringing": {
+        "name": "Ringing"
+      },
+      "call": {
+        "name": "Call in progress"
+      }
+    },
+    "button": {
+      "open_door": {
+        "name": "Open door"
+      },
+      "open_lock": {
+        "name": "Open lock {where}"
+      },
+      "stair_light": {
+        "name": "Stair light"
+      },
+      "refresh_image": {
+        "name": "Refresh image"
+      }
+    },
+    "event": {
+      "doorbell": {
+        "name": "Doorbell",
+        "state_attributes": {
+          "event_type": {
+            "state": {
+              "ring": "Ring"
+            }
+          }
+        }
+      },
+      "door": {
+        "name": "Door",
+        "state_attributes": {
+          "event_type": {
+            "state": {
+              "opened": "Opened"
+            }
+          }
+        }
+      }
+    },
+    "media_player": {
+      "speaker": {
+        "name": "Speaker"
+      }
+    }
+  },
+  "exceptions": {
+    "certificate_expired": {
+      "message": "The SIP certificate has expired, sign in again."
+    },
+    "invalid_open_password": {
+      "message": "The gateway refused the OpenWebNet password."
+    },
+    "cannot_connect": {
+      "message": "Cannot reach the gateway at {host}."
+    },
+    "command_failed": {
+      "message": "The gateway did not accept the command: {error}"
+    },
+    "busy": {
+      "message": "The door station is busy (someone is ringing or it is already in use)."
+    },
+    "no_video": {
+      "message": "No image received from the door station."
+    },
+    "no_speex": {
+      "message": "libspeex is not installed on this system, the speaker cannot work."
+    },
+    "renewal_failed": {
+      "message": "The SIP certificate has expired and the BTicino cloud cannot be reached to renew it; retrying later."
+    }
+  },
+  "issues": {
+    "certificate_expiring": {
+      "title": "{title}: SIP certificate expires on {date}",
+      "fix_flow": {
+        "step": {
+          "confirm": {
+            "title": "Renew the SIP certificate",
+            "description": "The certificate used by Home Assistant to talk to the gateway expires on {date}. After that, the door, camera and speaker will stop working.\n\nConfirm to sign in to your Door Entry account again: a new certificate will be requested. Tick \"Remember the password\" to have it renewed automatically next time."
+          }
+        }
+      }
+    }
+  }
+}

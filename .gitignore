@@ -1,0 +1,34 @@
+# Secrets and personal data: never commit
+sip_credentials.json
+sip_certs/
+*.key
+*.pem
+
+# Proprietary APK and decompiled sources
+apk/
+c300x_src/
+bticino_src/
+
+# Local notes and obsolete drafts
+archive/
+
+# Captures and field-test outputs
+*.wav
+*.mkv
+*.jpg
+*.sdp
+ring_log.txt
+watch_ring.out
+
+# Python
+venv/
+.venv*/
+__pycache__/
+*.pyc
+.pytest_cache/
+.ruff_cache/
+.coverage
+
+# Local tooling
+.claude/
+.DS_Store
